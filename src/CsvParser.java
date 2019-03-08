@@ -21,6 +21,7 @@ public class CsvParser extends Parser {
 	public CsvParser() {
 		processedFiles = new ArrayList<EntityRecord>();
 		entityBuilder = new EntityRecord();
+//		entityBuilder = new EntityRecord("物料编码");
 	}
 	
 	public EntityRecord getEntity() {
@@ -34,16 +35,18 @@ public class CsvParser extends Parser {
             Reader reader = new BufferedReader(new FileReader(fileName));
             csvReader = new CSVReader(reader);
             String[] nextRecord;
-            HashMap<Integer, String> keyMap;
+//            HashMap<Integer, String> keyMap;
           	//first row of CSV is the set of key names
             if((nextRecord = csvReader.readNext()) != null) {
             	entityBuilder.addKeys(nextRecord);
             } else {
             	System.out.println("invalid file format");
             }
+            int count = 0;
             // Reading records one by one in a String array
-            while ((nextRecord = csvReader.readNext()) != null) {//Reads the next line from the buffer and converts to a string array.
+            while ((nextRecord = csvReader.readNext()) != null && count < 25) {//Reads the next line from the buffer and converts to a string array.
                 entityBuilder.addRecord(nextRecord);
+                count++;
             }
             System.out.println("Entities built so far in .csv files...");
             System.out.println(entityBuilder);
