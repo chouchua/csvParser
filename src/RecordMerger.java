@@ -14,12 +14,15 @@ public class RecordMerger {
 	 */
 	public static void main(final String[] args) throws Exception {
 		// your code starts here.
-		String[] testFiles = {testCsv1, testCsv2};
+//		String[] testFiles = {testCsv1, testCsv2};
+		String[] testFiles = {"/Users/chouchua/Downloads/cantest/data/rr2.csv"};
 		String[] filesToMerge = args.length > 0 ? args: testFiles;
 		System.out.println("Reading records from...");
 		System.out.println(Arrays.asList(filesToMerge));
 		//REMEMBER to change your desired output path right below
 		String resultPath = "/Users/chouchua/Downloads/cantest/data";
+		
+		//case 1: merge ingredient_list and bom_list
 		RecordMerger merger = new RecordMerger(filesToMerge, resultPath);
 		merger.readInputSources();
 		merger.merge();//generates combined.csv
@@ -32,10 +35,14 @@ public class RecordMerger {
 			System.out.println("No files to read.");
 		}
 		manager = new ParserManager();
+		//add all available parsers
 		manager.addParser("csv", new CsvParser());
 		manager.addParser("html", new HTMLParser());
 	}
 	
+	/**
+	 * Combine all entities processed across all files
+	 */
 	private void merge() {
 		this.manager.merge(resultPath);
 	}
